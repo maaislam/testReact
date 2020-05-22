@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 import faker from 'faker';
 import CommentDetail from './CommentDetail';
 import ApprovalCard from './ApprovalCard';
+import Message from './Message';
+import UiSegment from './UiSegment';
+import ActionBtn from './ActionBtn';
+import FurtherInfo from './FurtherInfo';
 
 
 
@@ -15,6 +19,9 @@ const App = () => {
 
 
       <ApprovalCard>
+        <Message 
+          headerChanges = "changes in Service" 
+          detailMessage = "We just updated our terms of service to strengthen our Secutity"/> 
         <div>
           <h4>Warning</h4>
           <p>Are You Sure ?</p>
@@ -49,6 +56,20 @@ const App = () => {
           comment = {faker.lorem.sentence()} 
           />
     </ApprovalCard>
+
+
+    {/* Just a test1 testing use of Props*/}
+
+    <UiSegment>
+      <ActionBtn fileOutline = "No documents found" btnText = "Add Document"/>
+    </UiSegment>
+
+    <UiSegment>
+      <FurtherInfo headerText = "For Your Information" moreInfo = {faker.lorem.paragraphs()}/>
+    </UiSegment>
+
+
+  
 
    </div>
   );
