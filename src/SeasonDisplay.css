@@ -1,0 +1,48 @@
+
+.season-display{
+
+    position: relative;
+    height: 100vh;
+    width: 100%;
+   
+}
+.winter{
+    background-color: rgb(238, 247, 255);
+}
+.summer{
+    background-color: orange;
+}
+.sun{
+    color: red;
+}
+.snowflake{
+    color: skyblue;
+}
+
+.icon-left{
+
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    transform: translate(-5%, -5%);
+    
+}
+
+.season-text{
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
+
+
+.icon-right{
+
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+    transform: translate(-5%, -5%);
+
+}

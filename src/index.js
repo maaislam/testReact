@@ -1,79 +1,72 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import faker from 'faker';
-import CommentDetail from './CommentDetail';
-import ApprovalCard from './ApprovalCard';
-import Message from './Message';
-import UiSegment from './UiSegment';
-import ActionBtn from './ActionBtn';
-import FurtherInfo from './FurtherInfo';
+import SeasonDisplay from './SeasonDisplay';
+import LoadingAnim from './LoadingAnim';
+import PopupMessage from './PopupMessage';
 
 
+class App extends React.Component {
 
 
-const App = () => {
-
-  return(
-
-   <div className="ui container comments">
+  state = {lat: null, errorMessage: ''};
 
 
-      <ApprovalCard>
-        <Message 
-          headerChanges = "changes in Service" 
-          detailMessage = "We just updated our terms of service to strengthen our Secutity"/> 
-        <div>
-          <h4>Warning</h4>
-          <p>Are You Sure ?</p>
-        </div>
-      </ApprovalCard>
+  componentDidMount(){
+
+    window.navigator.geolocation.getCurrentPosition(
+
+          (position) => {
+
+            this.setState({lat: position.coords.latitude});
+          },
+          (err) => {
+            this.setState({errorMessage: err.message, errorCode: err.code});
+            console.log(err);
+          }
+
+        );
 
 
-      <ApprovalCard>
-        <CommentDetail 
-          avatar = {faker.image.avatar()} 
-          author = "Samuel Vince" 
-          timeAgo = "Today at 4:00pm" 
-          comment = {faker.lorem.sentence()}
-          />
-     </ApprovalCard>
+  };
 
-     <ApprovalCard>
-        <CommentDetail 
-          avatar = {faker.image.avatar()} 
-          author = "Arafat Vin" 
-          timeAgo = "Today at 6:00pm" 
-          comment = {faker.lorem.sentence()} 
-          />
-     </ApprovalCard>
+  renderContent(){
 
+    if (this.state.errorMessage && !this.state.lat){
 
-     <ApprovalCard>
-        <CommentDetail 
-          avatar = {faker.image.avatar()} 
-          author = "Jane Mia" 
-          timeAgo = "Testerday at 7:00pm" 
-          comment = {faker.lorem.sentence()} 
-          />
-    </ApprovalCard>
+          return (
+            <div>
+              <PopupMessage ErrorMsg = {`Error Message: ${this.state.errorMessage}`} ErrorCode = {`Error Code: ${this.state.errorCode}`} />
+            </div>
+          );
 
+        }else if (this.state.lat && !this.state.errorMessage){
+          return (
+            <div>
+            <SeasonDisplay lat = {this.state.lat } />
+            </div>
+          );
 
-    {/* Just a test1 testing use of Props*/}
-
-    <UiSegment>
-      <ActionBtn fileOutline = "No documents found" btnText = "Add Document"/>
-    </UiSegment>
-
-    <UiSegment>
-      <FurtherInfo headerText = "For Your Information" moreInfo = {faker.lorem.paragraphs()}/>
-    </UiSegment>
-
-
+        }else {
+          return (
+            <div>
+              <LoadingAnim message = "Please Allow Location Access"/>
+            </div>
+          );
+        }
+  };
   
+  render() {
+   return(
 
-   </div>
-  );
+      <div>
+        {this.renderContent()}
+      </div>
 
+   )
+    
+  }
 }
+
+
 
 ReactDOM.render(<App/>, document.querySelector('#root'));
